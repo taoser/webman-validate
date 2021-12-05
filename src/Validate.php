@@ -634,7 +634,7 @@ class Validate
                 if (!empty($msg[$i])) {
                     $message = $msg[$i];
                     if (is_string($message) && strpos($message, '{%') === 0) {
-                        $message = $this->lang->get(substr($message, 2, -1));
+                        $message = trans(substr($message, 2, -1));
                     }
                 } else {
                     $message = $this->getRuleMsg($field, $title, $info, $rule);
@@ -1566,7 +1566,7 @@ class Validate
         } elseif (0 === strpos($type, 'require')) {
             $msg = $this->typeMsg['require'];
         } else {
-            $msg = $title . $this->lang->get('not conform to the rules');
+            $msg = $title . trans('not conform to the rules');
         }
 
         if (is_array($msg)) {
@@ -1586,10 +1586,12 @@ class Validate
      */
     protected function parseErrorMsg(string $msg, $rule, string $title)
     {
+		//默认语言包
+		$lang = base_path() . '/resource/translations/' . config('translation.locale') . '/messages.php';
         if (0 === strpos($msg, '{%')) {
-            $msg = $this->lang->get(substr($msg, 2, -1));
-        } elseif ($this->lang->has($msg)) {
-            $msg = $this->lang->get($msg);
+            $msg = trans(substr($msg, 2, -1));
+        } elseif (trans($msg)) {
+            $msg = trans($msg);
         }
 
         if (is_array($msg)) {

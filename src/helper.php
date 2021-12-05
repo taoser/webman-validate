@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-use think\helper\Str;
+use taoser\Validate;
 
 if (!function_exists('validate')) {
     /**
@@ -25,7 +25,7 @@ if (!function_exists('validate')) {
                 [$validate, $scene] = explode('.', $validate);
             }
 
-            $class = false !== strpos($validate, '\\') ? $validate : $this->parseClass('validate', $validate);
+            $class = false !== strpos($validate, '\\') ? $validate : $validate;
 
             $v = new $class();
 
@@ -38,20 +38,4 @@ if (!function_exists('validate')) {
     }
 }
 	
-	 /**
-     * 解析应用类的类名
-     * @access public
-     * @param string $layer 层名 controller model ...
-     * @param string $name  类名
-     * @return string
-     */
-    public function parseClass(string $layer, string $name): string
-    {
-        $name  = str_replace(['/', '.'], '\\', $name);
-        $array = explode('\\', $name);
-        $class = Str::studly(array_pop($array));
-        $path  = $array ? implode('\\', $array) . '\\' : '';
 
-        return $this->namespace . '\\' . $layer . '\\' . $path . $class;
-    }
-	
