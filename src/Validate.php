@@ -7,6 +7,7 @@ use Closure;
 use taoser\exception\ValidateException;
 use think\helper\Str;
 use taoser\validate\ValidateRule;
+use think\facade\Db;
 
 /**
  * 数据验证类
@@ -1117,7 +1118,7 @@ class Validate
         if (is_string($rule)) {
             $rule = explode(',', $rule);
         }
-
+		$this->setDb(new Db);	//设置Db对象
         if (false !== strpos($rule[0], '\\')) {
             // 指定模型类
             $db = new $rule[0];
