@@ -3,6 +3,8 @@
 The webman validate Package。
 基于thinkphp6修改的可用于webman等php框架的通用validate数据验证器，
 暂时不提供facede模式。
+支持场景验证
+支持think db数据唯一性验证
 
 ## 安装
 ~~~
