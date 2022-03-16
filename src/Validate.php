@@ -9,6 +9,7 @@ use think\helper\Str;
 use taoser\validate\ValidateRule;
 use think\facade\Db;
 
+
 /**
  * 数据验证类
  * @package think
@@ -635,7 +636,7 @@ class Validate
                 if (!empty($msg[$i])) {
                     $message = $msg[$i];
                     if (is_string($message) && strpos($message, '{%') === 0) {
-                        $message = trans(substr($message, 2, -1));
+                        $message = trans(substr($message, 2, -1), [], 'validate', config('translations.locale'));
                     }
                 } else {
                     $message = $this->getRuleMsg($field, $title, $info, $rule);
@@ -905,7 +906,7 @@ class Validate
     public function token($value, string $rule, array $data): bool
     {
         $rule = !empty($rule) ? $rule : '__token__';
-        return $this->request->checkToken($rule, $data);
+        return $this->checkToken($rule, $data);
     }
 
     /**
@@ -1118,12 +1119,13 @@ class Validate
         if (is_string($rule)) {
             $rule = explode(',', $rule);
         }
+		
 		$this->setDb(new Db);	//设置Db对象
         if (false !== strpos($rule[0], '\\')) {
             // 指定模型类
             $db = new $rule[0];
         } else {
-            $db = $this->db->name($rule[0]);
+            $db = $this->db::name($rule[0]);
         }
 
         $key = $rule[1] ?? $field;
@@ -1567,7 +1569,7 @@ class Validate
         } elseif (0 === strpos($type, 'require')) {
             $msg = $this->typeMsg['require'];
         } else {
-            $msg = $title . trans('not conform to the rules');
+            $msg = $title . trans('not conform to the rules', [], 'validate', config('translations.locale'));
         }
 
         if (is_array($msg)) {
@@ -1587,12 +1589,10 @@ class Validate
      */
     protected function parseErrorMsg(string $msg, $rule, string $title)
     {
-		//默认语言包
-		$lang = base_path() . '/resource/translations/' . config('translation.locale') . '/messages.php';
         if (0 === strpos($msg, '{%')) {
-            $msg = trans(substr($msg, 2, -1));
-        } elseif (trans($msg)) {
-            $msg = trans($msg);
+            $msg = trans(substr($msg, 2, -1), [], 'validate', config('translations.locale'));
+        } elseif (trans($msg, [], 'validate', config('translations.locale'))) {
+            $msg = trans($msg, [], 'validate', config('translations.locale'));
         }
 
         if (is_array($msg)) {
@@ -1679,4 +1679,46 @@ class Validate
 
         return call_user_func_array([$this, 'is'], $args);
     }
+
+    /**
+     * 检查请求令牌
+     * @access public
+     * @param  string $token 令牌名称
+     * @param  array  $data  表单数据
+     * @return bool
+     */
+    public function checkToken(string $token = '__token__', array $data = []): bool
+    {
+        if (in_array(request()->method(), ['GET', 'HEAD', 'OPTIONS'], true)) {
+            return true;
+        }
+
+        if (!request()->session->has($token)) {
+            // 令牌数据无效
+            return false;
+        }
+
+        // Header验证
+        if (request()->header('X-CSRF-TOKEN') && request()->session->get($token) === request()->header('X-CSRF-TOKEN')) {
+            // 防止重复提交
+            request()->session->delete($token); // 验证完成销毁session
+            return true;
+        }
+
+        if (empty($data)) {
+            $data = request()->post();
+        }
+
+        // 令牌验证
+        if (isset($data[$token]) && request()->session->get($token) === $data[$token]) {
+            // 防止重复提交
+            request()->session->delete($token); // 验证完成销毁session
+            return true;
+        }
+
+        // 开启TOKEN重置
+        request()->session->delete($token);
+        return false;
+    }
+
 }

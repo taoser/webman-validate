@@ -1,18 +1,17 @@
 {
     "name": "taoser/webman-validate",
     "description": "The webman Validate Package",
-    "homepage": "https://www.aieok.com",
     "license": "mit",
     "authors": [
         {
             "name": "taoler",
-            "email": "changlin_zhao@qq.com",
-            "homepage": "https://www.aieok.com"
+            "email": "changlin_zhao@qq.com"
         }
     ],
     "require": {
-        "php": ">=7.1.0",
-        "symfony/translation": "^5.4"
+        "php": ">=7.2.0",
+        "symfony/translation": "^5.4|^6.0",
+        "topthink/think-helper":"^3.1"
     },
     "autoload": {
         "psr-4": {
