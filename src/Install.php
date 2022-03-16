@@ -9,9 +9,8 @@ class Install
      * @var array
      */
     protected static $pathRelation = array (
-  'config/plugin/taoser/webman-validate' => 'config/plugin/taoser/webman-validate',
-  'resource/translations' => 'resource/translations',
-);
+		'resource/translations' => 'resource/translations',
+	);
 
     /**
      * Install
@@ -46,8 +45,6 @@ class Install
             }
             //symlink(__DIR__ . "/$source", base_path()."/$dest");
             copy_dir(__DIR__ . "/$source", base_path()."/$dest");
-            echo "Create $dest
-";
         }
     }
 
@@ -57,18 +54,16 @@ class Install
      */
     public static function uninstallByRelation()
     {
-        foreach (static::$pathRelation as $source => $dest) {
-            $path = base_path()."/$dest";
-            if (!is_dir($path) && !is_file($path)) {
+		//卸载语言包
+		$validate_lang = [
+			base_path().'/resource/translations/zh_CN/validate.php',
+			base_path().'/resource/translations/en/validate.php'
+		];
+        foreach ($validate_lang as $langPath) {
+            if (is_file($source)) {
+                unlink($langPath);
                 continue;
             }
-            echo "Remove $dest
-";
-            if (is_file($path) || is_link($path)) {
-                unlink($path);
-                continue;
-            }
-            remove_dir($path);
         }
     }
     
