@@ -1,5 +1,5 @@
 <?php
-namespace Taoser\WebmanValidate;
+namespace taoser;
 
 class Install
 {
