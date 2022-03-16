@@ -9,7 +9,7 @@ The webman validate Package。
 * 支持j表单令牌token
 * 支持unquire唯一性验证(基于TP Db类)
 
-用法完全跟tp6验证一致。
+用法完全跟tp6验证一致,更多参考https://www.kancloud.cn/manual/thinkphp6_0/1037623
 
 ## 安装
 ~~~
@@ -20,7 +20,7 @@ composer require taoser/webman-validate
 
 >定义验证器
 
-~~~php
+```php
 namespace app\validate;
 
 use taoser\Validate;
@@ -33,11 +33,11 @@ class User extends Validate
     ];
 
 }
-~~~
+```
 
 支持创建验证器进行数据验证
 
-~~~php
+```php
 <?php
 namespace app\index\validate;
 
@@ -67,11 +67,11 @@ class User extends Validate
     ];
     
 }
-~~~
+```
 
 验证器调用代码如下：
 
-~~~php
+```php
 <?php
 namespace app\controller;
 
@@ -129,7 +129,7 @@ class Index
 	}
 
 
-~~~
+```
 
 更多用法可以参考6.0完全开发手册的[验证](https://www.kancloud.cn/manual/thinkphp6_0/1037623)章节
 
