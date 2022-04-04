@@ -54,13 +54,13 @@ class Install
      */
     public static function uninstallByRelation()
     {
-		//卸载语言包
-		$validate_lang = [
-			base_path().'/resource/translations/zh_CN/validate.php',
-			base_path().'/resource/translations/en/validate.php'
-		];
+	//卸载语言包
+	$validate_lang = [
+		base_path().'/resource/translations/zh_CN/validate.php',
+		base_path().'/resource/translations/en/validate.php'
+	];
         foreach ($validate_lang as $langPath) {
-            if (is_file($source)) {
+            if (is_file($langPath)) {
                 unlink($langPath);
                 continue;
             }
