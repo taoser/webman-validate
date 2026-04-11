@@ -2,14 +2,15 @@
 
 The webman validate Package。
 
-基于thinkphp6全功能版，用于webman框架的validate数据验证器。
+基于thinkphp全功能版，用于webman框架的validate数据验证器,2026适配php8.4。
 * 支持助手函数validate()
 * 支持facade门面模式
 * 支持场景验证scene
 * 支持j表单令牌token
+* 支持多语言 resource/translations/zh_CN/validate.php
 * 支持unquire唯一性验证(基于TP Db类)
 
-用法完全跟tp6验证一致,更多参考https://www.kancloud.cn/manual/thinkphp6_0/1037623
+用法完全更多参考https://www.kancloud.cn/manual/thinkphp6_0/1037623
 
 ## 安装
 ~~~
@@ -131,7 +132,7 @@ class Index
 
 ```
 
-更多用法可以参考6.0完全开发手册的[验证](https://www.kancloud.cn/manual/thinkphp6_0/1037623)章节
+更多用法可以参考完全开发手册的[验证](https://www.kancloud.cn/manual/thinkphp6_0/1037623)章节
 
 
 ## 特别说明
